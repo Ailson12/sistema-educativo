@@ -82,9 +82,15 @@ class ProfessorController extends Controller
      * @param  \App\Models\Professor  $professor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Professor $professor)
+    public function update(Request $request, $id)
     {
-        //
+        $user = ProfessorService::update($request->all(), $id);
+
+        if ($user['user']) {
+            return redirect()->route('professor.index');
+        }
+
+        return back()->withInput();
     }
 
     /**

@@ -33,4 +33,16 @@ class ProfessorService
             ];
         }
     }
+    public static function update($request, $id)
+    {
+        try {
+            return [
+                'user' => Professor::find($id)->update($request)
+            ];
+        } catch (Exception $erro) {
+            return [
+                'erro' => $erro->getMessage()
+            ];
+        }
+    }
 }
