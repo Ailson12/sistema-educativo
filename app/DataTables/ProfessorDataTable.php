@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Professor;
+use App\Models\Professor;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -20,8 +20,8 @@ class ProfessorDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-            ->eloquent($query)
-            ->addColumn('action', 'professor.action');
+            ->eloquent($query);
+           // ->addColumn('action', 'professor.action');
     }
 
     /**
@@ -65,15 +65,15 @@ class ProfessorDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+          //  Column::computed('action')
+           //       ->exportable(false)
+             //     ->printable(false)
+             //     ->width(60)
+              //    ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
+            Column::make('nome'),
+            Column::make('data_nascimento'),
             Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 
