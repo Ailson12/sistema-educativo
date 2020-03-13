@@ -10,9 +10,12 @@
        </div>
 
        <div class="card-body">
-
+        @if (isset($professor))
+            {!! Form::model($professor, ['url' => route('professor.update', $professor), 'method' => 'put']) !!}
+        @else
         {!! Form::open(['url' => route('professor.store')]) !!}
-        
+        @endif
+       
         <div class="form-group">
             {!! Form::label('nome', 'Nome') !!}
             {!! Form::text('nome', null, ['class' => 'form-control']) !!}

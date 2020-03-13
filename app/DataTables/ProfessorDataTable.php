@@ -23,8 +23,15 @@ class ProfessorDataTable extends DataTable
             ->eloquent($query)
             ->editColumn('created_at', function($user) {
                 return $user->created_at->format('d/m/y');
+            })
+            ->addColumn('action', function($professor) {
+                $acoes = link_to(
+                    route('professor.edit', $professor),
+                    'Editar',
+                    ['class' => 'btn btn-primary']
+                );
+                return $acoes;
             });
-           // ->addColumn('action', 'professor.action');
     }
 
     /**
@@ -68,15 +75,13 @@ class ProfessorDataTable extends DataTable
     protected function getColumns()
     {
         return [
-          //  Column::computed('action')
-           //       ->exportable(false)
-             //     ->printable(false)
-             //     ->width(60)
-              //    ->addClass('text-center'),
             Column::make('id'),
             Column::make('nome'),
             Column::make('data_nascimento'),
             Column::make('created_at'),
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false),
         ];
     }
 

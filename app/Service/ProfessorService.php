@@ -13,7 +13,21 @@ class ProfessorService
             return [
                 'user' => Professor::create($request)
             ];
-        } catch (\Exception $erro) {
+        } catch (Exception $erro) {
+            return [
+                'erro' => $erro->getMessage()
+            ];
+        }
+    }
+
+    public static function edit($id)
+    {
+        $professor = Professor::FindOrFail($id);
+        try {
+            return [
+                'user' => $professor
+            ];
+        } catch (Exception $erro) {
             return [
                 'erro' => $erro->getMessage()
             ];

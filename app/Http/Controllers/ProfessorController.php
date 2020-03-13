@@ -61,9 +61,18 @@ class ProfessorController extends Controller
      * @param  \App\Models\Professor  $professor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Professor $professor)
+    public function edit($id)
     {
-        //
+        # tem que compactar para trazer os dados 
+        $professor = ProfessorService::edit($id);
+
+        if ($professor) {
+            return view('professor.create', [
+                'professor' =>$professor['user']
+            ]);
+        }
+        
+        return back()->withInput();
     }
 
     /**
