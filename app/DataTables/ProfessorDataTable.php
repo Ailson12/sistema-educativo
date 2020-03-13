@@ -20,7 +20,10 @@ class ProfessorDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-            ->eloquent($query);
+            ->eloquent($query)
+            ->editColumn('created_at', function($user) {
+                return $user->created_at->format('d/m/y');
+            });
            // ->addColumn('action', 'professor.action');
     }
 
