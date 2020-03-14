@@ -29,12 +29,12 @@ class ProfessorDataTable extends DataTable
                 $acoes = link_to(
                     route('professor.edit', $professor),
                     'Editar',
-                    ['class' => 'btn btn-primary ']
+                    ['class' => 'btn btn-sm btn-primary ']
                 );
                 $acoes .= FormFacade::button(
                     'Excluir',
                     [
-                        'class' => 'btn btn-danger',
+                        'class' => 'btn btn-sm btn-danger ml-1',
                         'onclick' => "excluir('".route('professor.destroy', $professor)."')"
                     ] 
                 );
@@ -67,12 +67,13 @@ class ProfessorDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+                        Button::make('create')->text('Novo Professor'),
+                        Button::make('export')->text('Exportar'),
+                        Button::make('print')->text('Imprimir')
+                    )
+                    ->parameters([
+                        'language' => ['url' => '//cdn.datatables.net/plug-ins/1.10.20/i18n/Portuguese-Brasil.json']
+                    ]);
     }
 
     /**
@@ -85,10 +86,13 @@ class ProfessorDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('nome'),
-            Column::make('data_nascimento'),
-            Column::make('created_at'),
+            Column::make('data_nascimento')
+            ->title('Data de Nascimento'),
+            Column::make('created_at')
+            ->title('Data de Criação'),
             Column::computed('action')
             ->exportable(false)
+            ->title('Ações')
             ->printable(false),
         ];
     }
