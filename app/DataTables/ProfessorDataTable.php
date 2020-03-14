@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Professor;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Collective\Html\FormFacade;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
@@ -28,7 +29,14 @@ class ProfessorDataTable extends DataTable
                 $acoes = link_to(
                     route('professor.edit', $professor),
                     'Editar',
-                    ['class' => 'btn btn-primary']
+                    ['class' => 'btn btn-primary ']
+                );
+                $acoes .= FormFacade::button(
+                    'Excluir',
+                    [
+                        'class' => 'btn btn-danger',
+                        'onclick' => "excluir('".route('professor.destroy', $professor)."')"
+                    ] 
                 );
                 return $acoes;
             });

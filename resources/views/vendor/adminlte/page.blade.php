@@ -239,4 +239,38 @@
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     @stack('js')
     @yield('js')
+     <!-- 1 segundo = 1000 milissegundos -->
+    <!-- Tem que ativar o cdn do axios(levei uma surra por isso kkkk) -->
+    <script>
+        function excluir(rota) {
+            Swal.fire({
+                title: 'Atenção',
+                text: "Deseja mesmo exluir?",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não'
+            }).then((result) => {
+                if (result.value) {
+                    axios.delete(rota)
+                        .then(function (res) {
+                            $('#' + Object.keys(window.LaravelDataTables)[0]).DataTable().ajax.reload();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Perfeito!',
+                                text: 'Excluido com sucesso'
+                            })
+                        })
+                        .catch(function (err) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Ops!',
+                                text: 'Ocorreu um erro ao excluir'
+                            })
+                        });
+                }
+            })
+        }
+    </script>
 @stop

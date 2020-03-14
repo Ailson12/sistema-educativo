@@ -99,8 +99,12 @@ class ProfessorController extends Controller
      * @param  \App\Models\Professor  $professor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Professor $professor)
+    public function destroy($id)
     {
-        //
+        $user = ProfessorService::destroy($id);
+        if ($user['status']) {
+            return 'Contato excluido com sucesso';
+        }
+        return abort(403, 'Erro ao excluir, ' .$user['erro']);
     }
 }

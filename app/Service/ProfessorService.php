@@ -45,4 +45,16 @@ class ProfessorService
             ];
         }
     }
+    public static function destroy($id)
+    {
+        try {
+            return [
+                'status' => Professor::findOrFail($id)->delete()
+            ];
+        } catch (Exception $erro) {
+            return [
+                'erro' => $erro->getMessage()
+            ];
+        }
+    }
 }
