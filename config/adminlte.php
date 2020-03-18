@@ -211,18 +211,18 @@ return [
        
         ['header' => 'Navegação Principal'],
         [
-            'text' => 'Profesor',
-            'url'  => 'professor',
+            'text' => 'Professor',
+            'url'  => 'admin/professor',
             'icon' => 'fas fa-chalkboard-teacher',
         ],
         [
             'text' => 'Curso',
-            'url'  => 'curso',
-            'icon' => 'fas fa-desktop',
+            'url'  => 'admin/curso',
+            'icon' => 'fas fa-book',
         ],
         [
             'text' => 'Aluno',
-            'url'  => 'aluno',
+            'url'  => 'admin/aluno',
             'icon' => 'fas fa-user-graduate',
         ],
 

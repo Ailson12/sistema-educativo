@@ -18,4 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('professor', 'ProfessorController');
+Route::middleware('auth')->prefix('admin')->group( function() {
+    Route::resource('professor', 'ProfessorController');
+    Route::resource('curso', 'CursoController');
+    Route::resource('aluno', 'AlunoController');
+});

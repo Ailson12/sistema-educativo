@@ -1,20 +1,21 @@
 @extends('adminlte::page')
 
-@section('title', 'Professor')
+@section('title', 'Curso')
 
 @section('content_header')
     <div class="card">
         <div class="card-header">
-            <h2 class="card-title">Lista de Professor</h2>
+            <h3 class="card-title">Lista de Cursos</h3>
         </div>
     </div>
 @stop
+
 @section('content')
-    <div class="card">
-        <div class="card-body">
-            {!! $dataTable->table() !!}
-        </div>
+<div class="card">
+    <div class="card-body">
+        {!! $dataTable->table() !!}
     </div>
+</div>
 @stop
 
 @section('css')
@@ -24,4 +25,3 @@
 @section('js')
     {!! $dataTable->scripts() !!}
 @stop
-

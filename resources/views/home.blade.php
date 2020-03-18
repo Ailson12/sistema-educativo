@@ -8,6 +8,7 @@
 
 @section('content')
     <p>Você está logado</p>
+    <h5>Ja validou os campos?</h5>
 @stop
 
 @section('css')
