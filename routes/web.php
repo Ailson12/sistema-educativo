@@ -17,8 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::middleware('auth')->prefix('admin')->group( function() {
+Route::middleware('auth')->namespace('Admin')->prefix('admin')->group( function() {
+    Route::get('/', 'HomeController@index')->name('home');
     Route::resource('professor', 'ProfessorController');
     Route::resource('curso', 'CursoController');
     Route::resource('aluno', 'AlunoController');

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Professor;
-use Illuminate\Http\Request;
-use App\DataTables\ProfessorDataTable;
+use App\Http\Requests\ProfessorRequest;
 use App\Service\ProfessorService;
+use App\Http\Controllers\Controller;
+use App\DataTables\ProfessorDataTable;
 
 class ProfessorController extends Controller
 {
@@ -16,9 +17,9 @@ class ProfessorController extends Controller
      */
     public function index(ProfessorDataTable $datatable)
     {
-        return $datatable->render('professor.index');
+        return $datatable->render('Admin.professor.index');
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -26,7 +27,7 @@ class ProfessorController extends Controller
      */
     public function create()
     {
-        return view('professor.create');
+        return view('Admin.professor.create');
     }
 
     /**
@@ -35,10 +36,10 @@ class ProfessorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProfessorRequest $request)
     {
         $user = ProfessorService::store($request->all());
-        if ($user['user']) {
+        if ($user['status']) {
             return redirect()->route('professor.index');
         }
         return back()->withInput();
@@ -66,8 +67,8 @@ class ProfessorController extends Controller
         # tem que compactar para trazer os dados 
         $professor = ProfessorService::edit($id);
 
-        if ($professor) {
-            return view('professor.create', [
+        if ($professor['status']) {
+            return view('Admin.professor.create', [
                 'professor' =>$professor['user']
             ]);
         }
@@ -82,11 +83,11 @@ class ProfessorController extends Controller
      * @param  \App\Models\Professor  $professor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProfessorRequest $request, $id)
     {
         $user = ProfessorService::update($request->all(), $id);
 
-        if ($user['user']) {
+        if ($user['status']) {
             return redirect()->route('professor.index');
         }
 

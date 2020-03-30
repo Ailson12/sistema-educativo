@@ -19,11 +19,13 @@
         <div class="form-group">
             {!! Form::label('nome', 'Nome') !!}
             {!! Form::text('nome', null, ['class' => 'form-control']) !!}
+            @error('nome') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
         <div class="form-group">
             {!! Form::label('data_nascimento', 'Data de Nascimento') !!}
             {!! Form::date('data_nascimento', null,['class' => 'form-control']) !!}
+            @error('data_nascimento') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
         {!! Form::submit('Salvar', ['class' => 'btn btn-primary']) !!}

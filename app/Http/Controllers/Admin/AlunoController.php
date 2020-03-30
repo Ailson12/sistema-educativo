@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Aluno;
 use App\Models\Curso;
-use App\Models\Professor;
-use Illuminate\Http\Request;
-use App\DataTables\CursoDataTable;
-use App\Service\CursoService;
+use App\DataTables\AlunoDataTable;
+use App\Http\Requests\AlunoRequest;
+use App\Service\AlunoService;
 
-class CursoController extends Controller
+class AlunoController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(CursoDataTable $datatable)
+    public function index(AlunoDataTable $datatable)
     {
-        return $datatable->render('curso.index');
+        return $datatable->render('Admin.aluno.index');
     }
 
     /**
@@ -27,8 +28,8 @@ class CursoController extends Controller
      */
     public function create()
     {
-        $professor = Professor::all()->pluck('nome', 'id');
-        return view('curso.create', compact('professor'));
+        $curso = Curso::all()->pluck('nome', 'id');
+        return view('Admin.aluno.create', compact('curso'));
     }
 
     /**
@@ -37,23 +38,23 @@ class CursoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AlunoRequest $request)
     {
-        $retorno = CursoService::store($request->all());
+        $retorno = AlunoService::store($request->all());
         if ($retorno['status']) {
-            return redirect()->route('curso.index');
+            return redirect()->route('aluno.index');
         }
-        
+
         return back()->withInput();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Curso  $curso
+     * @param  \App\Aluno  $aluno
      * @return \Illuminate\Http\Response
      */
-    public function show(Curso $curso)
+    public function show(Aluno $aluno)
     {
         //
     }
@@ -61,19 +62,18 @@ class CursoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Curso  $curso
+     * @param  \App\Aluno  $aluno
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, Request $request)
+    public function edit($id)
     {
-        $retorno = CursoService::getCursoPorId($id);
+        $retorno = AlunoService::getAlunoPorId($id);
         if ($retorno['status']) {
-            return view('curso.create', [
-                'curso' => $retorno['curso'],
-                'professor' => $retorno['professor']
+            return view('Admin.aluno.create', [
+                'aluno' => $retorno['aluno'],
+                'curso' => $retorno['curso']
             ]);
         }
-
         return back()->withInput();
     }
 
@@ -81,32 +81,31 @@ class CursoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Curso  $curso
+     * @param  \App\Aluno  $aluno
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AlunoRequest $request, $id)
     {
-        $retorno =  CursoService::update($request->all(), $id);
+        $retorno = AlunoService::update($request->all(), $id);
         if ($retorno['status']) {
-           return redirect()->route('curso.index');
+            return redirect()->route('aluno.index');
         }
-
         return back()->withInput();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Curso  $curso
+     * @param  \App\Aluno  $aluno
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $retorno = CursoService::destroy($id);
+        $retorno = AlunoService::destroy($id);
         if ($retorno['status']) {
-            return 'excluido com sucesso' ;
+            return '';
         }
 
-        return abort(403, 'Erro ao excluir, ' . $retorno['erro']);
+        return '';
     }
 }

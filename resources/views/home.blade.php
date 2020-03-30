@@ -1,14 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'HOME')
 
 @section('content_header')
     <h1>Página Principal</h1>
+    
 @stop
 
 @section('content')
-    <p>Você está logado</p>
-    <h5>Ja validou os campos?</h5>
+    <p>Seja Bem Vindo, {{ auth()->user()->name }}</p>
 @stop
 
 @section('css')
