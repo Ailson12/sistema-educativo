@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Professor;
 use App\Http\Requests\ProfessorRequest;
-use App\Service\ProfessorService;
+use App\Services\ProfessorService;
 use App\Http\Controllers\Controller;
 use App\DataTables\ProfessorDataTable;
 
@@ -17,7 +17,7 @@ class ProfessorController extends Controller
      */
     public function index(ProfessorDataTable $datatable)
     {
-        return $datatable->render('Admin.professor.index');
+        return $datatable->render('admin.professor.index');
     }
     
     /**
@@ -27,7 +27,7 @@ class ProfessorController extends Controller
      */
     public function create()
     {
-        return view('Admin.professor.create');
+        return view('admin.professor.create');
     }
 
     /**
@@ -40,9 +40,11 @@ class ProfessorController extends Controller
     {
         $user = ProfessorService::store($request->all());
         if ($user['status']) {
-            return redirect()->route('professor.index');
+            return redirect()->route('professor.index')
+                    ->withSucesso('Professor salvo com sucesso');
         }
-        return back()->withInput();
+        return back()->withInput()
+                    ->withFalha('Erro ao salvar');
     }
 
     /**
@@ -68,7 +70,7 @@ class ProfessorController extends Controller
         $professor = ProfessorService::edit($id);
 
         if ($professor['status']) {
-            return view('Admin.professor.create', [
+            return view('admin.professor.create', [
                 'professor' =>$professor['user']
             ]);
         }
@@ -88,10 +90,12 @@ class ProfessorController extends Controller
         $user = ProfessorService::update($request->all(), $id);
 
         if ($user['status']) {
-            return redirect()->route('professor.index');
+            return redirect()->route('professor.index')
+                            ->withSucesso('Professor atualizado com sucesso');
         }
 
-        return back()->withInput();
+        return back()->withInput()
+                            ->withFalha('Erro ao atualizar');
     }
 
     /**
@@ -102,10 +106,10 @@ class ProfessorController extends Controller
      */
     public function destroy($id)
     {
-        $user = ProfessorService::destroy($id);
-        if ($user['status']) {
-            return 'Contato excluido com sucesso';
+        $retorno = ProfessorService::destroy($id);
+        if ($retorno['status']) {
+            return 'excluido com sucesso';
         }
-        return abort(403, 'Erro ao excluir, ' .$user['erro']);
+        return abort(403, 'Erro ao excluir, ' .$retorno['erro']);
     }
 }

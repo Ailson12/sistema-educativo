@@ -35,11 +35,18 @@ class AlunoDataTable extends DataTable
                 $acoes .= FormFacade::button(
                     'Excluir', 
                     [
-                        'class' => 'btn btn-sm btn-danger',
+                        'class' => 'btn btn-sm btn-danger ml-1',
                         'onclick' => "excluir('". route('aluno.destroy', $id) ."')"
                     ]
                 );
                 return $acoes;
+            })
+            ->editColumn('nome', function ($aluno) {
+                return link_to(
+                    route('aluno.show', $aluno),
+                    "$aluno->nome",
+                    ['title' => 'Mais detalhes sobre o aluno']
+                );   
             });
     }
 
@@ -87,20 +94,6 @@ class AlunoDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('nome'),
-            Column::make('data_nascimento')
-            ->title('Data de Nascimento'),
-            Column::make('cep')
-            ->title('Cep'),
-            Column::make('logradouro')
-            ->title('Logradouro'),
-            Column::make('bairro')
-            ->title('Bairro'),
-            Column::make('cidade')
-            ->title('Cidade'),
-            Column::make('estado')
-            ->title('Estado'),
-            Column::make('numero')
-            ->title('Numero'),
             Column::make('curso_id')
             ->title('Curso'),
             Column::computed('action')

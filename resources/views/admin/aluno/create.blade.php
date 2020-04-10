@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Formulário')
+@section('title', 'Formulario')
 
 @section('content_header')
     
@@ -17,7 +17,7 @@
         @else
         {!! Form::open(['url' => route('aluno.store')]) !!}
         @endif
-        
+
         <div class="form-group">
             {!! Form::label('nome', 'Nome') !!}
             {!! Form::text('nome', null, ['class' => 'form-control']) !!}

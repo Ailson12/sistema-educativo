@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Curso;
 use App\Models\Professor;
 use App\Http\Requests\CursoRequest;
-use App\Service\CursoService;
+use App\Services\CursoService;
 use App\DataTables\CursoDataTable;
 use App\Http\Controllers\Controller;
 
@@ -18,7 +18,7 @@ class CursoController extends Controller
      */
     public function index(CursoDataTable $datatable)
     {
-        return $datatable->render('Admin.curso.index');
+        return $datatable->render('admin.curso.index');
     }
 
     /**
@@ -29,7 +29,7 @@ class CursoController extends Controller
     public function create()
     {
         $professor = Professor::all()->pluck('nome', 'id');
-        return view('Admin.curso.create', compact('professor'));
+        return view('admin.curso.create', compact('professor'));
     }
 
     /**
@@ -42,10 +42,12 @@ class CursoController extends Controller
     {
         $retorno = CursoService::store($request->all());
         if ($retorno['status']) {
-            return redirect()->route('curso.index');
+            return redirect()->route('curso.index')
+                            ->withSucesso('Curso salvo com sucesso');
         }
         
-        return back()->withInput();
+        return back()->withInput() 
+                            ->withFalha('Ocorreu um erro ao salvar');
     }
 
     /**
@@ -69,7 +71,7 @@ class CursoController extends Controller
     {
         $retorno = CursoService::getCursoPorId($id);
         if ($retorno['status']) {
-            return view('Admin.curso.create', [
+            return view('admin.curso.create', [
                 'curso' => $retorno['curso'],
                 'professor' => $retorno['professor']
             ]);
@@ -89,10 +91,12 @@ class CursoController extends Controller
     {
         $retorno =  CursoService::update($request->all(), $id);
         if ($retorno['status']) {
-           return redirect()->route('curso.index');
+           return redirect()->route('curso.index')
+                        ->withSucesso('Curso atualizado com sucesso');
         }
 
-        return back()->withInput();
+        return back()->withInput()
+                        ->withFalha('ERro ao atualizar');;
     }
 
     /**

@@ -16,10 +16,11 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/admin', 'Admin\HomeController@index')->name('home');
 
 Route::middleware('auth')->namespace('Admin')->prefix('admin')->group( function() {
-    Route::get('/', 'HomeController@index')->name('home');
     Route::resource('professor', 'ProfessorController');
     Route::resource('curso', 'CursoController');
     Route::resource('aluno', 'AlunoController');
+    Route::get('relatorio', 'PdfController@index');
 });

@@ -7,7 +7,7 @@ use App\Models\Aluno;
 use App\Models\Curso;
 use App\DataTables\AlunoDataTable;
 use App\Http\Requests\AlunoRequest;
-use App\Service\AlunoService;
+use App\Services\AlunoService;
 
 class AlunoController extends Controller
 {
@@ -18,7 +18,7 @@ class AlunoController extends Controller
      */
     public function index(AlunoDataTable $datatable)
     {
-        return $datatable->render('Admin.aluno.index');
+        return $datatable->render('admin.aluno.index');
     }
 
     /**
@@ -29,7 +29,7 @@ class AlunoController extends Controller
     public function create()
     {
         $curso = Curso::all()->pluck('nome', 'id');
-        return view('Admin.aluno.create', compact('curso'));
+        return view('admin.aluno.create', compact('curso'));
     }
 
     /**
@@ -40,12 +40,15 @@ class AlunoController extends Controller
      */
     public function store(AlunoRequest $request)
     {
+        
         $retorno = AlunoService::store($request->all());
         if ($retorno['status']) {
-            return redirect()->route('aluno.index');
+            return redirect()->route('aluno.index')
+                            ->withSucesso('Aluno salvo com sucesso');
         }
 
-        return back()->withInput();
+        return back()->withInput()
+                    ->withFalha('Erro ao salvar');;
     }
 
     /**
@@ -56,7 +59,7 @@ class AlunoController extends Controller
      */
     public function show(Aluno $aluno)
     {
-        //
+        return view('admin.aluno.show', compact('aluno'));
     }
 
     /**
@@ -69,7 +72,7 @@ class AlunoController extends Controller
     {
         $retorno = AlunoService::getAlunoPorId($id);
         if ($retorno['status']) {
-            return view('Admin.aluno.create', [
+            return view('admin.aluno.create', [
                 'aluno' => $retorno['aluno'],
                 'curso' => $retorno['curso']
             ]);
@@ -88,9 +91,11 @@ class AlunoController extends Controller
     {
         $retorno = AlunoService::update($request->all(), $id);
         if ($retorno['status']) {
-            return redirect()->route('aluno.index');
+            return redirect()->route('aluno.index')
+                    ->withSucesso('Aluno atualizado com sucesso');
         }
-        return back()->withInput();
+        return back()->withInput()
+                    ->withFalha('Erro ao salvar');
     }
 
     /**
@@ -103,9 +108,9 @@ class AlunoController extends Controller
     {
         $retorno = AlunoService::destroy($id);
         if ($retorno['status']) {
-            return '';
+            return 'excluido com sucesso';
         }
 
-        return '';
+        return abort(403, 'Erro ao excluir, ' .$retorno['erro']);
     }
 }

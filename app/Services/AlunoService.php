@@ -1,68 +1,75 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
-use App\Models\Professor;
+use App\Models\Aluno;
+use App\Models\Curso;
 use Exception;
 
-class ProfessorService 
+class AlunoService 
 {
     public static function store($request)
     {
         try {
             return [
                 'status' => true,
-                'user' => Professor::create($request)
+                'user' => Aluno::create($request)
             ];
         } catch (Exception $erro) {
-            return [
+           return [
                 'status' => false,
                 'erro' => $erro->getMessage()
-            ];
+           ];
         }
     }
 
-    public static function edit($id)
+    public static function getAlunoPorId($id)
     {
-        $professor = Professor::FindOrFail($id);
         try {
             return [
                 'status' => true,
-                'user' => $professor
+                'aluno' => Aluno::findOrFail($id),
+                'curso' => Curso::all()->pluck('nome', 'id')
             ];
         } catch (Exception $erro) {
-            return [
-                'status' => false,
-                'erro' => $erro->getMessage()
-            ];
+           return [
+            'status' => false,
+            'erro' => $erro->getMessage()
+           ];
         }
     }
+
     public static function update($request, $id)
     {
         try {
+            $user = Aluno::findOrFail($id);
+            $user->update($request);
             return [
                 'status' => true,
-                'user' => Professor::find($id)->update($request)
+                'aluno' => $user
             ];
         } catch (Exception $erro) {
             return [
                 'status' => false,
                 'erro' => $erro->getMessage()
-            ];
+               ];
         }
     }
+
     public static function destroy($id)
     {
         try {
+            $user = Aluno::findOrFail($id);
+            $user->delete();
             return [
                 'status' => true,
-                'user' => Professor::findOrFail($id)->delete()
+                'aluno' => $user
             ];
         } catch (Exception $erro) {
             return [
                 'status' => false,
                 'erro' => $erro->getMessage()
-            ];
+               ];
         }
     }
 }

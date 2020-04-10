@@ -228,8 +228,9 @@ return [
 
         ['header' => '  '],
         [
-            'text'       => 'Relátorio',
+            'text' => 'Relátorio',
             'icon' => 'far fa-file-pdf',
+            'url'  => 'admin/relatorio'
         ],
     ],
 

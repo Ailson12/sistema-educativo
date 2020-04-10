@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
-use App\Models\Curso;
 use App\Models\Professor;
 use Exception;
 
-class CursoService 
+class ProfessorService 
 {
     public static function store($request)
     {
         try {
             return [
-            'status' => true,
-            'user' => Curso::create($request)   
+                'status' => true,
+                'user' => Professor::create($request)
             ];
         } catch (Exception $erro) {
             return [
@@ -23,30 +22,27 @@ class CursoService
         }
     }
 
-    public static function getCursoPorId($id)
+    public static function edit($id)
     {
+        $professor = Professor::FindOrFail($id);
         try {
             return [
                 'status' => true,
-                'curso' => Curso::findOrFail($id),
-                'professor' => Professor::all()->pluck('nome', 'id')
+                'user' => $professor
             ];
         } catch (Exception $erro) {
             return [
                 'status' => false,
-                'erro' => $erro
+                'erro' => $erro->getMessage()
             ];
         }
     }
-
     public static function update($request, $id)
     {
         try {
-            $user = Curso::findOrFail($id);
-            $user->update($request);
             return [
                 'status' => true,
-                'user' => $user
+                'user' => Professor::find($id)->update($request)
             ];
         } catch (Exception $erro) {
             return [
@@ -55,20 +51,17 @@ class CursoService
             ];
         }
     }
-
     public static function destroy($id)
     {
         try {
-            $user =  Curso::findOrFail($id);
-            $user->delete();
             return [
                 'status' => true,
-                'user' => $user
+                'user' => Professor::findOrFail($id)->delete()
             ];
         } catch (Exception $erro) {
             return [
                 'status' => false,
-                'erro' => $erro
+                'erro' => $erro->getMessage()
             ];
         }
     }

@@ -1,5 +1,5 @@
 @extends('adminlte::master')
-
+     
 @section('adminlte_css')
     @stack('css')
     @yield('css')
@@ -206,6 +206,7 @@
             <div class="content-header">
                 <div class="{{config('adminlte.classes_content_header', 'container-fluid')}}">
                     @yield('content_header')
+
                 </div>
             </div>
 
@@ -241,6 +242,7 @@
     @yield('js')
      <!-- 1 segundo = 1000 milissegundos -->
     <!-- Tem que ativar o cdn do axios(levei uma surra por isso kkkk) -->
+
     <script>
         function excluir(rota) {
             Swal.fire({
@@ -273,4 +275,24 @@
             })
         }
     </script>
+
+    @if(Session::has('sucesso') || Session::has('falha'))
+        <script>
+        Swal.fire({
+            text: '{{ Session::get('sucesso') ?? Session::get('falha') }}',
+            @if (Session::has('sucesso'))
+                icon: 'success',
+            @else
+                icon: 'error',
+            @endif
+            timer: 3000,
+            showConfirmButton: false,
+            timerProgressBar: true
+        })
+        </script>
+    @endif
+   
 @stop
+
+
+
